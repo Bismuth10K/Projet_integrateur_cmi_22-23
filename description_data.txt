@@ -1,0 +1,64 @@
+Table :  
+	671 observations pour 36 variables.
+
+Variables : 
+	- years (int) : Année de l'observation
+	- months.x (int) : Mois de l'observation
+	- Antarctic mass (float) : Perte ou gain de masse de l'antartic en gigatonnes (à vérifier)
+	- Antarctic mass 1-sigma uncertainty (float) : Modification de la variable Antarctic mass en gigatonnes (à vérifier)
+	- monthly average (float) : moyenne de dioxyde de carbone en un mois. 
+	- de-season alized (float) : ? (extrêmement corrélée avec monthly average)
+	- #days (int) : Jour du mois de l'observation (-1 si donnée manquante)
+	- st.dev of days (float) : Ecart-type du jour 
+	- unc. of mon mean (float) : ?
+	- Greenland mass (float) : Perte ou gain de masse du Groenland en gigatonnes (à vérifier)
+	- Greenland mass 1-sigma uncertainty (float) : Modification de la variable Greenland Mass en gigatonnes (à vérifier)
+	- No_smoothing (float) : différence entre la température par année et la moyenne des températures entre 1951 et 1980 en (C)
+		- Lowess.5 (float) : prédiction du modèle de la nasa sur No_smoothing (C).
+	- WO (float) : Evolution du niveau de la mer (World Ocean)(?)
+	- WOse (float) : ? (extrêmement corrélé avec WO)
+	- NH (float) : Evolution du niveau de la mer à New Hampshire (?)
+	- NHse (float) : ? (extrêmement corrélé avec NH)
+	- SH (float) : ? 
+	- SHse (float) : ? (extrêmement corrélé avec SH)
+	- data.type (str) : Type de la donnée (Goddard ou NRTSI-G)
+	- hemisphere (str) : Tout le temps hemisphere Nord
+	- extent (float) : étendue de l'hémisphere (pas d'info pour l'unité de mesure)
+	- area (float) : Aire de l'hemisphere (en dizaine de million de KM2)
+	- rank (float) : Chaque année se voit attribuer un rang en fonction d'extent (.5 si deux années sont à égalité)
+	- V1 (int) : indication sur le type d'altimètre (0 = altimètre à deux fréquences, 999 = altimètre à une fréquence)
+	- V2 (int) : Une sorte d'index (?)
+	- V3 (double) : Date fractionnelle
+	- V4 (int) : Nombre d'observations (uniquement pour les données du niveau de la mer).
+	- V5 (float) : Nombre d'observations pondérées
+	- V6 (float) : variation dU GMLS (l'ajustement isostatique global (GIA) non appliqué) (mm)
+	- V7 (float) : Ecart-type de l'estimation de la variation (mm)
+	- V8 (float) : estimation des variation du GMLS filtré (filtre Gaussian sur 60 jours)
+	- V9 (float) : variation dU GMLS (l'ajustement isostatique global (GIA) appliqué) (mm)
+	- V10 (float) : Ecart-type de l'estimation de la variation (GIA appliqué) (mm)
+	- V11 (float) : variation du GLMS filtré avec GIA appliqué (mm)
+	- V12 (float) : variation du GLMS filtré avec GIA appliqué (mm) (suppression de certains signaux).
+
+table en lien avec les variables :
+
+	- communes : year months.x 
+	- antarctica_mass : Antarctic mass - Antarctic mass 1-sigma uncertainty
+	- carbone_dioxyde : monthly average - unc. of mon mean
+	- greenland_mass : Greenland mass - Greenland mass 1-sigma uncertainty
+	- Global_temperature : No_smoothing - Lowess.5
+	- Ocean_warming : WO - SHse
+	- Sept_artic_extend : data.type - rank
+	- Sea_level : V1 - V12
+
+
+Variables importantes :
+	- years (int) : Année de l'observation
+	- months.x (int) : Mois de l'observation
+	- Antarctic mass (float) : Perte ou gain de masse de l'antartic en gigatonnes (à vérifier)
+	- monthly average (float) : moyenne de dioxyde de carbone en un mois. 
+	- Greenland mass (float) : Perte ou gain de masse du Groenland en gigatonnes (à vérifier)
+	- No_smoothing (float) : différence entre la température par année et la moyenne des températures entre 1951 et 1980 en (C)
+	- area (float) : Aire de l'hemisphere (en dizaine de million de KM2)
+	- V6 (float) : variation dU GMLS (l'ajustement isostatique global (GIA) non appliqué) (mm)
+	- V3 (double) : Date fractionnelle
+	- V9 (float) : variation dU GMLS (l'ajustement isostatique global (GIA) appliqué) (mm)
