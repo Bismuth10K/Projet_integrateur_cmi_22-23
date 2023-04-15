@@ -12,7 +12,7 @@ library("ggplot2")
 
 # importation des données
 
-CD = read.table(file = 'datasets_nasa/datasets_nasa/carbon-dioxyde.txt', header = FALSE, skip = 54)
+CD = read.table(file = 'datasets_nasa/carbon-dioxyde.txt', header = FALSE, skip = 54)
 CD = CD[-c(1,2)]
 header = c('Date', 'monthly average', 'de-season alized', '#days', 'st.dev of days', 'unc. of mon mean')
 colnames(CD) = header

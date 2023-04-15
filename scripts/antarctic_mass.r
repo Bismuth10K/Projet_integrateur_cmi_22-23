@@ -12,7 +12,7 @@ library("ggplot2")
 
 # chargement des données
 
-AM = read.table(file = '../datasets_nasa/antarctica_mass.txt', header = FALSE, skip = 31)
+AM = read.table(file = 'datasets_nasa/antarctica_mass.txt', header = FALSE, skip = 31)
 header = c('time', 'Antarctic_mass', 'Antarctic_mass_uncertainty')
 colnames(AM) = header
 head(AM,5)
