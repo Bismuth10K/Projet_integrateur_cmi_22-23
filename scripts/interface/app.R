@@ -1,5 +1,4 @@
 library(shiny)
-library(leaflet)
 library(readr)
 library(dplyr)
 library(shinydashboard)
@@ -66,8 +65,8 @@ ui = bootstrapPage(
                         sidebarPanel(
                           # Create a selection list for choosing the dataset
                           selectInput("dataset", "Choose a dataset:", 
-                                      choices = c("antartica mass" = "../../datasets_nasa/cleaned_dataset/antarctica_mass_clean.csv", 
-                                                  "carbone dioxyde" = "../../datasets_nasa/cleaned_dataset/co2_clean.csv", 
+                                      choices = c("antartica mass" = "../../datasets_nasa/cleaned_datasets/antarctica_mass_clean.csv", 
+                                                  "carbone dioxyde" = "../../datasets_nasa/cleaned_datasets/co2_clean.csv", 
                                                   "global temperature" = "../../datasets_nasa/global_temperature.txt"
                                                   #"green and land mass" = "../../datasets_nasa/2485_Sept_Arctic_extent_1979-2021.xlsx" 
                                                   #"carbone dioxyde" = "", 
