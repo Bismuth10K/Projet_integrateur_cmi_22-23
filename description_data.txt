@@ -57,11 +57,11 @@ table en lien avec les variables :
 Variables importantes :
 	- years (int) : Année de l'observation
 	- months.x (int) : Mois de l'observation
-	- Antarctic mass (float) : Perte ou gain de masse de l'antartic en gigatonnes (à vérifier)
+	- Antarctic mass (float) : Perte ou gain de masse de l'antartique en gigatonnes (à vérifier)
 	- monthly average (float) : moyenne de dioxyde de carbone en un mois. 
 	- Greenland mass (float) : Perte ou gain de masse du Groenland en gigatonnes (à vérifier)
 	- No_smoothing (float) : différence entre la température par année et la moyenne des températures entre 1951 et 1980 en (C)
-	- area (float) : Aire de l'hemisphere (en dizaine de million de KM2)
+	- area (float) : Aire de l'hémisphere (en dizaine de million de KM2)
 	- V6 (float) : variation dU GMLS (l'ajustement isostatique global (GIA) non appliqué) (mm)
 	- V3 (double) : Date fractionnelle
-	- V9 (float) : variation dU GMLS (l'ajustement isostatique global (GIA) appliqué) (mm)
+	- V9 (float) : variation du GMLS (l'ajustement isostatique global (GIA) appliqué) (mm)
