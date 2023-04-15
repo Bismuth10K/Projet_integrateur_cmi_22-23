@@ -12,7 +12,7 @@ library("ggplot2")
 
 # importation des données
 
-GT = read.table(file = 'datasets_nasa/datasets_nasa/global_temperature.txt',
+GT = read.table(file = 'datasets_nasa/global_temperature.txt',
                 header = TRUE, sep=';', skip = 3)
 head(GT)
 
@@ -43,3 +43,4 @@ ggplot(data = GT)  +
        x = "Year", y="degré Celsius")
 
 # Modèle de moins bonne qualité
+

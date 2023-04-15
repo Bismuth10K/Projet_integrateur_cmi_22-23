@@ -1,7 +1,7 @@
 ################################################################################
 #                                                                              #
 #               Etude descriptive de la table Sept_Artic_extend                #
-#                   Variable intéressante : aera                               #
+#                   Variable intéressante : area                               #
 #                                                                              #
 ################################################################################
 
@@ -12,7 +12,7 @@ library("ggplot2")
 
 # importation des données
 
-SAE = read.table(file = "datasets_nasa/datasets_nasa/Sept_Artic_extend.txt", header = TRUE)
+SAE = read.table(file = "datasets_nasa/Sept_Artic_extend.txt", header = TRUE)
 SAE$area = as.numeric(sub(",", ".", SAE$area, fixed = TRUE))
 
 head(SAE)

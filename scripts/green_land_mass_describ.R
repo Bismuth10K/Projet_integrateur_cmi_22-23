@@ -12,7 +12,7 @@ library("ggplot2")
 
 # chargement des données
 
-GM = read.table(file = 'datasets_nasa/datasets_nasa/greenland_mass.txt', header = FALSE, skip = 31)
+GM = read.table(file = 'datasets_nasa/greenland_mass.txt', header = FALSE, skip = 31)
 header = c('TIME', 'Greenland_mass', 'Greenland_mass_1sigma_uncertainty')
 colnames(GM) = header
 head(GM)
@@ -65,3 +65,4 @@ ggplot(data = GM_2)  +
               slope = sumModel2$coefficients[2], color="red")+
   labs(title = "Prédiction de la variable Greenland_mass_1sigma_uncertainty",
        x = "Années", "Diférence de Masse entre 2002 et la date actuel")
+
