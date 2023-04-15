@@ -8,6 +8,7 @@ library(plotly)
 library(shinycssloaders)
 library(ggplot2)
 library(ggExtra)
+library(DT)
 
 ui = bootstrapPage(
   tags$link(
@@ -65,12 +66,11 @@ ui = bootstrapPage(
                         sidebarPanel(
                           # Create a selection list for choosing the dataset
                           selectInput("dataset", "Choose a dataset:", 
-                                      choices = c("antartica mass" = "../../datasets_nasa/cleaned_datasets/antarctica_mass_clean.csv", 
-                                                  "carbone dioxyde" = "../../datasets_nasa/cleaned_datasets/co2_clean.csv", 
-                                                  "global temperature" = "../../datasets_nasa/global_temperature.txt"
-                                                  #"green and land mass" = "../../datasets_nasa/2485_Sept_Arctic_extent_1979-2021.xlsx" 
-                                                  #"carbone dioxyde" = "", 
-                                                  #"global temperature" = "",
+                                      choices = c("Antartica mass" = "../../datasets_nasa/cleaned_datasets/antarctica_mass_clean.csv", 
+                                                  "Carbone dioxyde" = "../../datasets_nasa/cleaned_datasets/co2_clean.csv", 
+                                                  "Global temperature" = "../../datasets_nasa/cleaned_datasets/global_temp_clean.csv",
+                                                  "Greenland mass" = "../../datasets_nasa/cleaned_datasets/greenland_mass_clean.csv",
+                                                  "Carbone dioxyde" = "../../datasets_nasa/cleaned_datasets/sept_artic_extend_clean.csv" 
                                                   )),
                           selectInput("date_feature", "Choose a time feature:", 
                                       choices = NULL),
@@ -83,17 +83,29 @@ ui = bootstrapPage(
                         mainPanel(
                           verbatimTextOutput("selected_dataset"),
                           mainPanel(
-                            plotOutput("plot")
+                            plotlyOutput("plot")
                           )
                         )
                       )
              ),
              tabPanel("Predictor", 
              ),
-             tabPanel("Data Explorer", DT::DTOutput("table") %>% withSpinner(color='#16536a')),
+             tabPanel("Data Explorer", 
+                      sidebarPanel(
+                        selectInput("dataset_table", "Select Dataset", 
+                                    choices = c("Antartica mass" = "../../datasets_nasa/cleaned_datasets/antarctica_mass_clean.csv", 
+                                                "Carbone dioxyde" = "../../datasets_nasa/cleaned_datasets/co2_clean.csv", 
+                                                "Global temperature" = "../../datasets_nasa/cleaned_datasets/global_temp_clean.csv",
+                                                "Greenland mass" = "../../datasets_nasa/cleaned_datasets/greenland_mass_clean.csv",
+                                                "Carbone dioxyde" = "../../datasets_nasa/cleaned_datasets/sept_artic_extend_clean.csv" 
+                                    ))
+                      ),
+                      DT::DTOutput("table") %>% withSpinner(color='#16536a')
+                      
+                      ),
              
              tabPanel("Learn More",
-                      #includeMarkdown('../README.md')
+                      includeMarkdown('../../README.md')
              )
   )
   
@@ -124,13 +136,23 @@ server <- function(input, output, session){
                       selected = NULL)
   })
   
-  output$plot <- renderPlot({
+  output$plot <- renderPlotly({
     filtered_dataset <- dataset() %>% 
       select(input$date_feature, input$y_feature)
-    ggplot(data = filtered_dataset)  +
+    ggplotly(ggplot(data = filtered_dataset)  +
       geom_point(aes(x = !!sym(input$date_feature), 
-                     y = !!sym(input$y_feature)))
+                     y = !!sym(input$y_feature)), color = '#16536a' ))
   })
+  
+  
+  
+  
+  dataset2 <- reactive({
+    read.csv(input$dataset_table)
+  })
+  
+  output$table <- DT::renderDT(dataset2(), filter = 'top', options = list(pageLenght = 15))
+  
 }
 
 
