@@ -103,8 +103,9 @@ ui = bootstrapPage(
                                      tabPanel('Boxplot',
                                               fluidRow(
                                                 column(width = 5,
+                                                       div(style="padding: 20px",
                                                        selectInput("variable", "Choose a variable", choices = NULL)
-                                                       ),
+                                                       )),
                                                 column(width = 7,
                                                        plotlyOutput("boxplot", height = "300px", width = "100%")
                                                        )
