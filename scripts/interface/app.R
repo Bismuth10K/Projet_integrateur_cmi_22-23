@@ -13,6 +13,7 @@ library(DT)
 
 COLOR = '#16536a'
 
+merged_df = read.csv('../../datasets_nasa/cleaned_datasets/merged_df.csv')
 
 ui = bootstrapPage(
   tags$link(
@@ -88,9 +89,20 @@ ui = bootstrapPage(
                                )
                                ),
                         
+                        
+                        
                         column(width = 7,
                                div(class = "box", 
                                    div(class = "box-header", "Time series"),
+                                   div(style="padding-left: 20px",
+                                       checkboxInput('comparison_bool', value = FALSE, label = 'Comparison'),
+                                       selectInput('datasetVS', 'Choose a feature to compare', 
+                                                 choices = c("Antartica mass" = "../../datasets_nasa/cleaned_datasets/antarctica_mass_clean.csv", 
+                                                             "Carbone dioxyde" = "../../datasets_nasa/cleaned_datasets/co2_clean.csv", 
+                                                             "Global temperature" = "../../datasets_nasa/cleaned_datasets/global_temp_clean.csv",
+                                                             "Greenland mass" = "../../datasets_nasa/cleaned_datasets/greenland_mass_clean.csv",
+                                                             "sept_artic_extend" = "../../datasets_nasa/cleaned_datasets/sept_artic_extend_clean.csv" )),
+                                   ),
                                    plotlyOutput("plot")
                                ),
                                
@@ -152,9 +164,16 @@ ui = bootstrapPage(
 
 server <- function(input, output, session){
   
-  dataset <- reactive({
+  dataset = reactive({
     read.csv(input$dataset)
   })
+  
+  
+  datasetVS = reactive({
+    read.csv(input$datasetVS)
+  })
+  
+  
   
   observeEvent(input$dataset, {
     updateSelectInput(session, "date_feature", 
@@ -168,17 +187,99 @@ server <- function(input, output, session){
                       selected = NULL)
   })
   
+  
+  
   output$plot <- renderPlotly({
-    filtered_dataset <- dataset() %>% 
-      select(input$date_feature, input$y_feature)
-    ggplotly(ggplot(data = filtered_dataset)  +
-      geom_point(aes(x = !!sym(input$date_feature), 
-                     y = !!sym(input$y_feature)), color = COLOR ) 
-      )%>%
-      config(displayModeBar = F)
+    
+    
+    # if(input$dataset == "../../datasets_nasa/cleaned_datasets/antarctica_mass_clean.csv"){
+    #   feature_dataset1 = Antartica_mass
+    # }
+    
+    
+    
+    if(input$comparison_bool[1] == FALSE){
+        filtered_dataset = dataset() %>%
+          select(input$date_feature, input$y_feature)
+        ggplotly(ggplot(data = filtered_dataset)  +
+          geom_point(aes(x = !!sym(input$date_feature),
+                         y = !!sym(input$y_feature)), color = COLOR )
+          )%>%
+          config(displayModeBar = F)
+    
+    # }else{
+    #   if(input$datasetVS == "../../datasets_nasa/cleaned_datasets/antarctica_mass_clean.csv"){
+    #     filtered_dataset =merged_df %>%
+    #       select(date, input$y_feature, monthly_average)
+    #     ggplotly(ggplot(merged_df) +
+    #                geom_line(aes(x = date,
+    #                              y = feature_dataset1, color = "Line 1")) +
+    #                geom_line(aes(x = date,
+    #                              y = monthly_average, color = "Line 2")) +
+    #                
+    #                
+    #               
+    #                # scale_y_continuous(name = "Target 1", limits = c(-3000, 500),
+    #                #                    sec.axis = sec_axis(~.*100, name = "Target 2")) +
+    #                theme_bw())
+    #     
+    #     
+    #     
+    #   }
+    #   if(input$datasetVS == "../../datasets_nasa/cleaned_datasets/co2_clean.csv"){
+    #     ggplotly(ggplot(merged_df, aes(date)) +
+    #                geom_line(aes(y = input$y_feature), color = "black") +
+    #                geom_line(aes(y = monthly_average), color = "red") +
+    #                # scale_y_continuous(name = "Target 1", limits = c(-3000, 500),
+    #                #                    sec.axis = sec_axis(~.*100, name = "Target 2")) +
+    #                theme_bw())
+    #   }
+    #   if(input$datasetVS == "../../datasets_nasa/cleaned_datasets/global_temp_clean.csv"){
+    #     ggplotly(ggplot(merged_df, aes(date)) +
+    #                geom_line(aes(y = input$y_feature), color = "black") +
+    #                geom_line(aes(y = No_Smoothing), color = "red") +
+    #                # scale_y_continuous(name = "Target 1", limits = c(-3000, 500),
+    #                #                    sec.axis = sec_axis(~.*100, name = "Target 2")) +
+    #                theme_bw())
+    #   }
+    #   if(input$datasetVS == "../../datasets_nasa/cleaned_datasets/greenland_mass_clean.csv"){
+    #     ggplotly(ggplot(merged_df, aes(date)) +
+    #                geom_line(aes(y = input$y_feature), color = "black") +
+    #                geom_line(aes(y = Greenland_mass), color = "red") +
+    #                # scale_y_continuous(name = "Target 1", limits = c(-3000, 500),
+    #                #                    sec.axis = sec_axis(~.*100, name = "Target 2")) +
+    #                theme_bw())
+    #   }
+    #   if(input$datasetVS == "../../datasets_nasa/cleaned_datasets/sept_artic_extend_clean.csv"){
+    #     ggplotly(ggplot(merged_df, aes(date)) +
+    #                geom_line(aes(y = input$y_feature), color = "black") +
+    #                geom_line(aes(y = extent), color = "red") +
+    #                # scale_y_continuous(name = "Target 1", limits = c(-3000, 500),
+    #                #                    sec.axis = sec_axis(~.*100, name = "Target 2")) +
+    #                theme_bw())
+    #   }
+    #   
+      
+      
+      
+    }
+    # ggplotly(ggplot(merged_df, aes(date)) +
+    #            geom_line(aes(y = Antarctic_mass), color = "black") +
+    #            geom_line(aes(y = `monthly average` / 100), color = "red") +
+    #            scale_y_continuous(name = "Target 1", limits = c(-3000, 500),
+    #                               sec.axis = sec_axis(~.*100, name = "Target 2")) +
+    #            labs(x = "Date", y = "Target", title = "Targets over time") +
+    #            theme_bw())
   })
+ 
+  
+
   
   
+  
+  
+  
+  # ================= 2nde box DROITE ======================#
   output$summary <- renderPrint({
     summary(dataset())
   })
@@ -187,7 +288,7 @@ server <- function(input, output, session){
     head(dataset())
   })
   
-  
+
   # ============ BOXPLOT ============ #
   observeEvent(input$dataset, {
     updateSelectInput(session, "variable", 
@@ -205,6 +306,12 @@ server <- function(input, output, session){
   })
   
   
+  
+  
+  ###########################################################################
+  # ========================= ONGLET DATA EXPLORER ======================== #
+  ###########################################################################
+  
   dataset2 <- reactive({
     read.csv(input$dataset_table)
   })
@@ -212,6 +319,8 @@ server <- function(input, output, session){
   output$table <- DT::renderDT(dataset2(), filter = 'top', options = list(pageLenght = 15))
   
 }
+
+
 
 
 shinyApp(ui, server)
