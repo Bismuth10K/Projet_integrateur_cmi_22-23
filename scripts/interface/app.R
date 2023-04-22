@@ -9,6 +9,7 @@ library(shinycssloaders)
 library(ggplot2)
 library(ggExtra)
 library(DT)
+library(corrplot)
 
 
 COLOR = '#16536a'
@@ -109,6 +110,10 @@ ui = bootstrapPage(
                                div(class = "box", #style = "max-height: 500px; overflow-y: scroll;",
                                    div(class = "box-header", "Explore"),
                                    tabsetPanel(
+                                     tabPanel('Describe',
+                                              uiOutput("file_md")
+                                     ),
+                                   
                                      tabPanel('Head',
                                               verbatimTextOutput("head")
                                      ),
@@ -125,10 +130,14 @@ ui = bootstrapPage(
                                               )
                                               
                                      ),
+                                     tabPanel('Correlation',
+                                              plotOutput("correlation")
+                                     ),
                                      tabPanel('Summary',
                                               verbatimTextOutput("summary")
                                      )
                                    )
+                                     
                                )
                         )
                       )
@@ -168,6 +177,9 @@ server <- function(input, output, session){
     read.csv(input$dataset)
   })
   
+  dataset_num = reactive({
+    read.csv(input$dataset)[,unlist(lapply(read.csv(input$dataset), is.numeric))]
+  })
   
   datasetVS = reactive({
     read.csv(input$datasetVS)
@@ -288,6 +300,19 @@ server <- function(input, output, session){
     head(dataset())
   })
   
+  output$file_md <- renderUI({
+    if(names(dataset()[3]) == "Antarctic_mass"){
+      includeMarkdown("../../descript_tables/Antarctica_mass.md")
+    }else if(names(dataset()[3]) == "monthly average"){
+      includeMarkdown("../../descript_tables/co2.md")
+    }else if(names(dataset()[3]) == "No_Smoothing"){
+      includeMarkdown("../../descript_tables/global_temp.md")
+    }else if(names(dataset()[3]) == "Greenland_mass"){
+      includeMarkdown("../../descript_tables/Greenland_mass.md")
+    }else{
+      includeMarkdown("../../descript_tables/sept_artic_extend.md")
+    }
+  })
 
   # ============ BOXPLOT ============ #
   observeEvent(input$dataset, {
@@ -305,7 +330,19 @@ server <- function(input, output, session){
       config(displayModeBar = F)
   })
   
+  # =========CORRELATION============ #
   
+  output$correlation <- renderPlot({
+    
+    col <- colorRampPalette(c("#2d3e78", "#5b6996", "#8a94b4","#8aa9b4","#5b8696","#2d6478"))
+    corrplot(cor(dataset_num()),
+             col=col(100), type="upper", 
+             addCoef.col = "black", 
+             tl.col="black", tl.srt=45, #Rotation des etiquettes de textes
+             # Cacher les coefficients de corrélation sur la diagonale
+             diag=FALSE 
+    )
+  })
   
   
   ###########################################################################
