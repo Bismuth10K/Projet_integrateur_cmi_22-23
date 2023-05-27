@@ -44,7 +44,7 @@ sigma(model)/mean(months_data$years) #RSE (standart residuals error) très petit
 
 months_data = months_data[c('Antarctic mass (Gigatonnes)',
                             'monthly average', 'Greenland mass (Gigatonnes)',
-                            'No_Smoothing', 'area','V3', 'V6', 'V9')]
+                            'No_Smoothing', 'area', 'V3', 'V6', 'V9')]
 
 ### modèle régression linéaire pour expliquer Atarctic_mass
 
@@ -82,6 +82,22 @@ summary(reglin_bic_antarctic)
 
 # modèle de bonne qualité : significativité des varaibles excellente, bon RSE, 
 # bon R2
+
+# Histogramme des résidus
+
+pred = predict(reglin_bic_antarctic, test)
+
+resid = test$`Antarctic mass (Gigatonnes)` - pred
+ggplot(data = as.data.frame(resid), aes(x=resid))+
+  geom_histogram(color='black')+
+  labs(title="Résidus du modèle de prédiction de la masse de l'antarctique",
+       x="Résidus", y = "Count")
+
+# test de normalité
+
+shapiro.test(pred)
+
+# p-value 1.732e-08, l'échantillon ne suit pas une normale
 
 ### modèle régression linéaire pour expliquer monthly_average
 
@@ -129,6 +145,24 @@ reglin_bic_carbone2 = lm(`monthly average`~`Antarctic mass (Gigatonnes)`+
                          data = train)
 summary(reglin_bic_carbone2)
 
+# le modèle de BIC est retenu
+
+# Histogramme des résidus
+
+pred = predict(reglin_bic_carbone1, test)
+
+resid = test$`monthly average` - pred
+ggplot(data = as.data.frame(resid), aes(x=resid))+
+  geom_histogram(color='black')+
+  labs(title="Résidus du modèle de prédiction du taux de CO2",
+       x="Résidus", y = "Count")
+
+# test de normalité
+
+shapiro.test(pred)
+
+# p-value 1.016e-05, l'échantillon ne suit pas une normale
+
 ### modèle régression linéaire pour expliquer la température
 
 # Sélection du modèle optimal
@@ -164,6 +198,22 @@ summary(reglin_bic_temperature)
 
 # modèle de bonne qualité : significativité des varaibles excellente, bon RSE, 
 # bon R2
+
+# Histogramme des résidus
+
+pred = predict(reglin_bic_temperature, test)
+
+resid = test$No_Smoothing - pred
+ggplot(data = as.data.frame(resid), aes(x=resid))+
+  geom_histogram(color='black')+
+  labs(title="Résidus du modèle de prédiction de l'évolution de la température",
+       x="Résidus", y = "Count")
+
+# test de normalité
+
+shapiro.test(pred)
+
+# p-value 4.972e-10, l'échantillon ne suit pas une normale
 
 
 #ACP
