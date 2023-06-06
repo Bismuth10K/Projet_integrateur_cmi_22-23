@@ -9,6 +9,8 @@ library("corrplot")
 library('Rarity')
 library(tidyverse)
 library(leaps)
+library('factoextra')
+library('FactoMineR')
 
 head(months_data)
 
@@ -234,4 +236,41 @@ fviz_pca_ind(pca.GlobalWarming,
 #plot.PCA(pca.GlobalWarming,choix = "ind", invisible ="quali")
 plot.PCA(pca.GlobalWarming, choix="var")
 
+# clustering sur les deux premières dimensions
 
+dims = get_pca_ind(pca.GlobalWarming)$coord[,c(1,2)]
+
+plot(dims[,1], dims[,2])
+
+km <- kmeans(dims, centers = 4, nstart = 25)
+fviz_cluster(km, data = dims)
+
+data_class = cbind(months_data, km$cluster)
+
+ggplot(data_class, aes(x=factor(km$cluster), y=`Antarctic mass (Gigatonnes)`,
+                       color = factor(km$cluster))) + 
+  geom_boxplot()+
+  theme(legend.position="none")+
+  labs(title = "Masse de l'antarctique en fonction de la classification",
+        y = "Masse de l'antarctique", x="Classes")
+
+ggplot(data_class, aes(x=factor(km$cluster), y=`monthly average`,
+                       color = factor(km$cluster))) + 
+  geom_boxplot()+
+  theme(legend.position="none")+
+  labs(title = "Taux de CO2 en fonction de la classification",
+       y = "Taux de CO2", x="Classes")
+
+ggplot(data_class, aes(x=factor(km$cluster), y=No_Smoothing,
+                       color = factor(km$cluster))) + 
+  geom_boxplot()+
+  theme(legend.position="none")+
+  labs(title = "Température en fonction de la classification",
+       y = "Température", x="Classes")
+
+ggplot(data_class, aes(x=factor(km$cluster), y=V3,
+                       color = factor(km$cluster))) + 
+  geom_boxplot()+
+  theme(legend.position="none")+
+  labs(title = "Date moyenne en fonction de la classification",
+       y = "Date", x="Classes")
