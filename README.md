@@ -7,11 +7,11 @@ Nous nous concentrerons principalement sur :
 - le niveau de CO2
 - l'augmentation de la température
 
-Datasets fournis par la [nasa](https://climate.nasa.gov/).
-Les données sont expliquées dans le dossier [description_data](./description_data.txt)
+Datasets fournis par la [NASA](https://climate.nasa.gov/).
+Les variables sont expliquées dans le fichier [description_data.txt](./description_data.txt)
 
 ## Structure
-Le dossier `datasets_nasa` contient les datasets récupérés sur le site de la NASA précédemment cité. On y trouve un dossier `cleaned_datasets` contenant les mêmes datasets mais nettoyé de la bonne manière.
+Le dossier `datasets_nasa` contient les datasets récupérés sur le site de la NASA précédemment cité. On y trouve un dossier `cleaned_datasets` contenant les datasets précédents, mais nettoyés de façon à correspondre au projet.
 
 Le dossier `descript_tables` contient une description détaillé pour chaque table.
 
